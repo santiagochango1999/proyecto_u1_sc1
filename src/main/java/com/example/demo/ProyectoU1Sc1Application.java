@@ -7,25 +7,24 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.demo.SpringBoot.CarroAutomaticoSB;
-import com.example.demo.SpringBoot.ClienteSB;
-import com.example.demo.SpringBoot.VendedorSB;
-import com.example.demo.SpringBoot.VentaCarroSB;
+import com.example.demo.cita.modelo.Medico;
+import com.example.demo.cita.modelo.Paciente;
+import com.example.demo.cita.service.ICitaMedicaService;
+import com.example.demo.cita.service.IMedicoService;
+import com.example.demo.cita.service.IPacienteService;
+
 
 @SpringBootApplication
 public class ProyectoU1Sc1Application implements CommandLineRunner{
 
 	@Autowired
-	private CarroAutomaticoSB carroau;
-
-	@Autowired
-	private VentaCarroSB ventacarroSB;
-
-	@Autowired
-	private ClienteSB clienteSB;
+	private IPacienteService iPacienteService;
 	
 	@Autowired
-	private VendedorSB vendedorSB;
+	private IMedicoService iMedicoService;
+	
+	@Autowired
+	private ICitaMedicaService citaMedicaService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU1Sc1Application.class, args);
@@ -34,16 +33,24 @@ public class ProyectoU1Sc1Application implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
+		Medico medico=new Medico();
+		medico.setApellido("chavez");
+		medico.setNombre("saul");
+		medico.setCedula("1707755441");
+		medico.setTipo("odo");
+		this.iMedicoService.agregar(medico);
 		
-		System.out.println("Spring BOOT");
-		this.carroau.setAño("2013");
-		this.carroau.setMarca("NISSAN");
-		this.carroau.setTipo("A");
-		this.carroau.setTipgasolina("DIESEL");
-
-		System.out.println(carroau);
-
-		ventacarroSB.venta("123123",  LocalDateTime.of(2022, 12,2,8,30), clienteSB, carroau, vendedorSB);
+		Paciente paciente=new Paciente();
+		paciente.setApellido("chango");
+		paciente.setNombre("santiago");
+		paciente.setCedula("1727490953");
+		paciente.setEdad("23");
+		paciente.setTipo("joven");
+		this.iPacienteService.agregar(paciente);
+		
+		this.citaMedicaService.generar("1727490953", "1707755441", LocalDateTime.of(2023, 4, 2, 12, 40), 12);
+		
+		
 	}
 
 }
